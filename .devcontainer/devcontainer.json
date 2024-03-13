@@ -29,9 +29,9 @@
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [3070],
+	"forwardPorts": [3024, 3070, 3071],
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "pip3 install --user -r api/requirements.txt",
+	"postCreateCommand": "cd api && pip install -e '.[dev]' && cd ../web && npm install",
 	// Configure tool-specific properties.
 	// "customizations": {},
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
