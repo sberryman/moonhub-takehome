@@ -104,8 +104,8 @@ function EmailChangeNoticeEmail({ userId }: { userId: string }) {
 				</h1>
 				<p>
 					<E.Text>
-						We're writing to let you know that your Moonhub Takehome email has been
-						changed.
+						We're writing to let you know that your Moonhub Takehome email has
+						been changed.
 					</E.Text>
 				</p>
 				<p>

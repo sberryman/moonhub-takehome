@@ -249,7 +249,15 @@ function App() {
 				<div className="container flex justify-between pb-5">
 					{/* <Logo /> */}
 					<div className="text-gray-600 dark:text-gray-400">
-						Built by <a href="https://www.shaunberryman.com" target='_blank' rel="noreferrer" className="underline hover:no-underline">Shaun Berryman</a>
+						Built by{' '}
+						<a
+							href="https://www.shaunberryman.com"
+							target="_blank"
+							rel="noreferrer"
+							className="underline hover:no-underline"
+						>
+							Shaun Berryman
+						</a>
 					</div>
 					<ThemeSwitch userPreference={data.requestInfo.userPrefs.theme} />
 				</div>

@@ -133,10 +133,13 @@ export async function cleanupDb(prisma: PrismaClient) {
 
 	// postgres version
 	type Table = { tablename: string }
-	const tables = await prisma.$queryRaw<Table[]
+	const tables = await prisma.$queryRaw<
+		Table[]
 	>`SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public' AND tablename NOT LIKE '_prisma_migrations';`
 
 	await prisma.$transaction([
-		prisma.$executeRawUnsafe(`TRUNCATE TABLE ${tables.map((t: Table) => `"${t.tablename}"`).join(', ')} RESTART IDENTITY CASCADE;`),
+		prisma.$executeRawUnsafe(
+			`TRUNCATE TABLE ${tables.map((t: Table) => `"${t.tablename}"`).join(', ')} RESTART IDENTITY CASCADE;`,
+		),
 	])
 }
