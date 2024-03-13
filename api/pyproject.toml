@@ -1,0 +1,94 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+
+version = "1.0.0"
+name = "api"
+
+dependencies = [
+    "faststream[redis, docs]==0.4.7",
+    "fastapi==0.110.0",
+    "ujson==5.9.0",
+    "uvicorn==0.28.0",
+    "loguru==0.7.2",
+    "stackprinter==0.2.11",
+    "pydantic-settings==2.2.1",
+    "pydantic==2.6.4",
+    "prisma==0.12.0",
+    # "bullmq==2.2.4"
+]
+
+[project.optional-dependencies]
+lint = [
+    "black==23.9.1",
+    "ruff==0.0.291",
+    "pyupgrade-directories",
+]
+
+static-analysis = [
+    "types-PyYAML",
+    "types-setuptools",
+    "types-ujson",
+    "mypy==1.5.1",
+    "bandit==1.7.5",
+]
+
+testing = [
+    "pytest==7.4.2",
+    "pytest-asyncio==0.21.1",
+]
+
+dev = ["api[lint,static-analysis,testing]"]
+
+[tool.pytest.ini_options]
+filterwarnings =["ignore::DeprecationWarning"]
+
+[tool.mypy]
+strict = true
+python_version = "3.11"
+ignore_missing_imports = true
+
+# from https://blog.wolt.com/engineering/2021/09/30/professional-grade-mypy-configuration/
+disallow_untyped_defs = true
+no_implicit_optional = true
+check_untyped_defs = true
+warn_return_any = true
+show_error_codes = true
+warn_unused_ignores = true
+
+disallow_incomplete_defs = true
+disallow_untyped_decorators = true
+disallow_any_unimported = false
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+
+[tool.ruff]
+fix = true
+line-length = 88
+target-version = "py311"
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+    "Q",  # flake8-quotes
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "C901",  # too complex
+]
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+[tool.bandit]
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]

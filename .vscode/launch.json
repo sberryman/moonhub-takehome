@@ -1,0 +1,44 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: FastAPI",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/api",
+            "program": "main.py",
+            "console": "internalConsole",
+            "env": {
+                "DEBUG": "True"
+            },
+            "jinja": true,
+            "justMyCode": true
+        },
+        {
+            "name": "Python: FastAPI Module",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/api",
+            "module": "uvicorn",
+            "console": "internalConsole",
+            "args": [
+                "app.app:app"
+            ],
+            "env": {
+                "DEBUG": "True"
+            },
+            "jinja": true,
+            "justMyCode": true
+        }
+    ]
+}
