@@ -54,6 +54,7 @@ import { type Theme, setTheme, getTheme } from './utils/theme.server.ts'
 import { makeTimings, time } from './utils/timing.server.ts'
 import { getToast } from './utils/toast.server.ts'
 import { useOptionalUser, useUser } from './utils/user.ts'
+import { MoonhubLogo } from './components/logo.tsx'
 
 export const links: LinksFunction = () => {
 	return [
@@ -197,7 +198,7 @@ function Document({
 				<meta name="viewport" content="width=device-width,initial-scale=1" />
 				<Links />
 			</head>
-			<body className="bg-background text-foreground">
+			<body className="h-full bg-background text-foreground">
 				{children}
 				<script
 					nonce={nonce}
@@ -228,9 +229,6 @@ function App() {
 				<header className="container py-6">
 					<nav className="flex flex-wrap items-center justify-between gap-4 sm:flex-nowrap md:gap-8">
 						<Logo />
-						{/* <div className="ml-auto hidden max-w-sm flex-1 sm:block">
-							{searchBar}
-						</div> */}
 						<div className="flex items-center gap-10">
 							{user ? (
 								<UserDropdown />
@@ -262,7 +260,8 @@ function App() {
 function Logo() {
 	return (
 		<Link to="/" className="group grid leading-snug">
-			<img src="/img/logo_white.svg" alt="Moonhub" className="h-6" />
+			{/* <img src="/img/logo_white.svg" alt="Moonhub" className="h-6" /> */}
+			<MoonhubLogo className="h-6" />
 		</Link>
 	)
 }
