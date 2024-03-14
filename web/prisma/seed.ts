@@ -138,7 +138,7 @@ async function seed() {
 			username: 'moonhub',
 			name: 'Moonhub Demo',
 			image: { create: kodyImages.moonhubUser },
-			password: { create: createPassword('moonhubtakehome') },
+			password: { create: createPassword('shaun') },
 			connections: {
 				create: { provider_name: 'github', provider_id: githubUser.profile.id },
 			},

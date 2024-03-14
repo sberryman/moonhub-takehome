@@ -22,25 +22,19 @@ export default function ProjectsIndex() {
 	const messages = [
 		{
 			id: 1,
-			content: `Good morning ${user.name ?? user.username}! I'd like to remind you that you have 4 meetings today.`,
+			content: `Good morning ${user.name ?? user.username}! You have 100 shortlisted candidates for the Senior SWE role who you have not scheduled sequences for. Would you like to schedule sequences for them?`,
 			role: 'assistant',
 			timestamp: '2024-03-14T13:12:35Z',
 		},
 		{
 			id: 2,
-			content: `Thanks! Can you please show me all of my unread emails?`,
+			content: `Yes please.`,
 			role: 'user',
 			timestamp: '2024-03-14T13:12:35Z',
 		},
 		{
 			id: 3,
-			content: `Of course!`,
-			role: 'assistant',
-			timestamp: '2024-03-14T13:12:35Z',
-		},
-		{
-			id: 4,
-			content: `Here are your unread emails…`,
+			content: `Here are all the candidates that have sequences scheduled.`,
 			role: 'assistant',
 			timestamp: '2024-03-14T13:12:35Z',
 		},
@@ -109,13 +103,13 @@ export default function ProjectsIndex() {
 			<div className="flex flex-1 flex-col gap-y-5 rounded-lg bg-gray-900 px-5 py-4">
 				{/* header */}
 				<div className="flex flex-none flex-row justify-center gap-y-2">
-					<div className="flex-grow text-xl font-light">Unread Emails</div>
+					<div className="flex-grow text-xl font-light">Sequences Scheduled</div>
 				</div>
 
 				<div className="flex flex-1 flex-col justify-center rounded-lg border border-dashed border-gray-500 px-5 py-4 text-center">
 					<div className="flex flex-grow" />
 					<div className="flex flex-none justify-center text-gray-600 dark:text-gray-400">
-						List of unread emails will be displayed here
+						List of candidates with scheduled sequences will appear here.
 					</div>
 					<div className="flex flex-grow" />
 				</div>

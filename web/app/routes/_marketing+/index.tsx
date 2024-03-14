@@ -24,8 +24,7 @@ export default function Index() {
 						data-paragraph
 						className="mt-6 animate-slide-top text-xl/7 text-muted-foreground [animation-fill-mode:backwards] [animation-delay:0.8s] xl:mt-8 xl:animate-slide-left xl:text-xl/6 xl:leading-10 xl:[animation-fill-mode:backwards] xl:[animation-delay:1s]"
 					>
-						Log In using the credentials provided to see a demo of the
-						take-home.
+						Log In using the credentials provided for a demo.
 					</p>
 				</div>
 				<ul className="mt-8 flex max-w-3xl flex-wrap justify-center pr-16">

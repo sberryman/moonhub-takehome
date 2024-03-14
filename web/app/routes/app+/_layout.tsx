@@ -7,7 +7,7 @@ import {
 	XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { json, type LoaderFunctionArgs } from '@remix-run/node'
-import { Outlet, useLoaderData, useLocation } from '@remix-run/react'
+import { Link, Outlet, useLoaderData, useLocation } from '@remix-run/react'
 import { Fragment, useState } from 'react'
 import { MoonhubIcon } from '#app/components/logo.tsx'
 import { EpicProgress } from '#app/components/progress-bar.tsx'
@@ -67,7 +67,7 @@ export default function AppLayout() {
 
 	return (
 		<>
-			<div className="flex h-full flex-1 flex-row gap-x-5 px-5 py-3">
+			<div className="flex h-full flex-1 gap-x-5 px-5 py-4">
 				<Transition.Root show={sidebarOpen} as={Fragment}>
 					<Dialog
 						as="div"
@@ -197,14 +197,14 @@ export default function AppLayout() {
 					<div className="flex-1 text-sm font-semibold leading-6 text-white">
 						Dashboard
 					</div>
-					<a href="#">
+					<Link to="#">
 						<span className="sr-only">Your profile</span>
 						<img
 							className="h-8 w-8 rounded-full bg-gray-800"
 							src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
 							alt=""
 						/>
-					</a>
+					</Link>
 				</div>
 
 				<main className="flex-grow">
