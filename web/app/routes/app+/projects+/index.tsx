@@ -48,7 +48,7 @@ export default function ProjectsIndex() {
 
 	return (
 		<div className="flex h-full flex-1 gap-x-5">
-			<div className="flex flex-1 flex-col gap-y-5 rounded-lg bg-gray-900 px-5 py-4">
+			<div className="flex flex-1 flex-col gap-y-5 rounded-lg bg-white dark:bg-gray-900 px-5 py-4">
 				{/* header */}
 				<div className="flex flex-none flex-row justify-center gap-y-2">
 					<div className="flex-grow text-xl font-semibold">Senior SWE role</div>
@@ -80,7 +80,7 @@ export default function ProjectsIndex() {
 											<div className="font-semibold">
                                                 {message.role === "assistant" ? "moonhub" : "you"}
                                             </div>
-											<div className="text-gray-600 dark:text-gray-400 text-sm font-light">
+											<div className="text-gray-500 dark:text-gray-600 dark:text-gray-400 text-sm font-light">
 												{dtf.format(Date.parse(message.timestamp))}
 											</div>
 										</div>
@@ -92,27 +92,27 @@ export default function ProjectsIndex() {
 					</ul>
 				</div>
 
-				<div className="flex flex-none flex-row gap-x-5 border-t border-gray-700 pt-4">
+				<div className="flex flex-none flex-row gap-x-5 border-t border-gray-300 dark:border-gray-700 pt-4">
 					<input
 						type="text"
-						className="flex flex-grow rounded-md border border-gray-500 bg-transparent px-4 py-1 focus:stroke-green-500"
+						className="flex flex-grow rounded-md border border-gray-300 dark:border-gray-500 bg-transparent px-4 py-1 focus:stroke-green-500"
 						placeholder="Type your message here"
 					/>
 					<button
 						type="button"
-						className="flex flex-none rounded-md border border-gray-500 px-4 py-1 hover:text-blue-300"
+						className="flex flex-none rounded-md border border-gray-300 dark:border-gray-500 px-4 py-1 hover:text-blue-300"
 					>
 						Send
 					</button>
 				</div>
 			</div>
-			<div className="flex flex-1 flex-col gap-y-5 rounded-lg bg-gray-900 px-5 py-4">
+			<div className="flex flex-1 flex-col gap-y-5 rounded-lg bg-white dark:bg-gray-900 px-5 py-4">
 				{/* header */}
 				<div className="flex flex-none flex-row justify-center gap-y-2">
 					<div className="flex-grow text-xl font-light">Unread Emails</div>
 				</div>
 
-				<div className="flex flex-1 flex-col justify-center rounded-lg border border-dashed border-gray-500 px-5 py-4 text-center">
+				<div className="flex flex-1 flex-col justify-center rounded-lg border border-dashed border-gray-300 dark:border-gray-500 px-5 py-4 text-center">
 					<div className="flex flex-grow" />
 					<div className="flex flex-none justify-center text-gray-600 dark:text-gray-400">
 						List of unread emails will be displayed here

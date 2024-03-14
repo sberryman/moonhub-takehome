@@ -160,7 +160,7 @@ export default function AppLayout() {
 					<div className="flex h-16 shrink-0 items-center justify-center">
 						<MoonhubIcon className="h-8 w-auto" />
 					</div>
-					<nav className="mt-8">
+					<nav className="mt-3">
 						<ul className="flex flex-col items-center space-y-1">
 							{navigation.map(item => (
 								<li key={item.name}>
