@@ -67,7 +67,7 @@ export default function AppLayout() {
 
 	return (
 		<>
-			<div className="flex h-full flex-1 gap-x-5 px-5 py-4">
+			<div className="flex h-full flex-1 gap-x-5 px-5 py-4 bg-gray-200">
 				<Transition.Root show={sidebarOpen} as={Fragment}>
 					<Dialog
 						as="div"
@@ -156,7 +156,7 @@ export default function AppLayout() {
 				</Transition.Root>
 
 				{/* Static sidebar for desktop */}
-				<div className="flex rounded-lg bg-gray-900 px-1.5 lg:flex-col lg:pb-4">
+				<div className="flex rounded-lg bg-white dark:bg-gray-900 px-1.5 lg:flex-col lg:pb-4">
 					<div className="flex h-16 shrink-0 items-center justify-center">
 						<MoonhubIcon className="h-8 w-auto" />
 					</div>
@@ -168,8 +168,8 @@ export default function AppLayout() {
 										href={item.href}
 										className={classNames(
 											item.current
-												? 'bg-gray-800 text-white'
-												: 'text-gray-400 hover:bg-gray-800 hover:text-white',
+												? 'bg-[#7b67ff] dark:bg-gray-800 text-white'
+												: 'text-gray-400 hover:bg-[#543ee0] dark:hover:bg-gray-800 hover:text-white',
 											'group flex gap-x-3 rounded-md p-3 text-sm font-semibold leading-6',
 										)}
 									>
