@@ -84,7 +84,7 @@ export async function action({ request }: ActionFunctionArgs) {
 			return {
 				intent: data.intent,
 				image: {
-					contentType: data.photoFile.type,
+					content_type: data.photoFile.type,
 					blob: Buffer.from(await data.photoFile.arrayBuffer()),
 				},
 			}
@@ -102,12 +102,12 @@ export async function action({ request }: ActionFunctionArgs) {
 	const { image, intent } = submission.value
 
 	if (intent === 'delete') {
-		await prisma.userImage.deleteMany({ where: { userId } })
+		await prisma.user_image.deleteMany({ where: { user_id: userId } })
 		return redirect('/settings/profile')
 	}
 
 	await prisma.$transaction(async $prisma => {
-		await $prisma.userImage.deleteMany({ where: { userId } })
+		await $prisma.user_image.deleteMany({ where: { user_id: userId } })
 		await $prisma.user.update({
 			where: { id: userId },
 			data: { image: { create: image } },

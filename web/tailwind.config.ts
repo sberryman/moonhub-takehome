@@ -1,3 +1,5 @@
+import headlesstailwind from '@headlessui/tailwindcss'
+import tailwindtypography from '@tailwindcss/typography'
 import { type Config } from 'tailwindcss'
 import animatePlugin from 'tailwindcss-animate'
 import radixPlugin from 'tailwindcss-radix'
@@ -18,5 +20,5 @@ export default {
 		extend: extendedTheme,
 	},
 	presets: [marketingPreset],
-	plugins: [animatePlugin, radixPlugin],
+	plugins: [animatePlugin, radixPlugin, headlesstailwind({ prefix: 'ui'}), tailwindtypography],
 } satisfies Config

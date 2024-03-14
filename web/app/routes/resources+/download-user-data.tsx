@@ -16,23 +16,23 @@ export async function loader({ request }: LoaderFunctionArgs) {
 			image: {
 				select: {
 					id: true,
-					createdAt: true,
-					updatedAt: true,
-					contentType: true,
+					created_at: true,
+					updated_at: true,
+					content_type: true,
 				},
 			},
-			notes: {
-				include: {
-					images: {
-						select: {
-							id: true,
-							createdAt: true,
-							updatedAt: true,
-							contentType: true,
-						},
-					},
-				},
-			},
+			// notes: {
+			// 	include: {
+			// 		images: {
+			// 			select: {
+			// 				id: true,
+			// 				created_at: true,
+			// 				updated_at: true,
+			// 				content_type: true,
+			// 			},
+			// 		},
+			// 	},
+			// },
 			password: false, // <-- intentionally omit password
 			sessions: true,
 			roles: true,
@@ -50,13 +50,13 @@ export async function loader({ request }: LoaderFunctionArgs) {
 						url: `${domain}/resources/user-images/${user.image.id}`,
 					}
 				: null,
-			notes: user.notes.map(note => ({
-				...note,
-				images: note.images.map(image => ({
-					...image,
-					url: `${domain}/resources/note-images/${image.id}`,
-				})),
-			})),
+			// notes: user.notes.map(note => ({
+			// 	...note,
+			// 	images: note.images.map(image => ({
+			// 		...image,
+			// 		url: `${domain}/resources/note-images/${image.id}`,
+			// 	})),
+			// })),
 		},
 	})
 }

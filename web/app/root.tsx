@@ -20,18 +20,20 @@ import {
 import { withSentry } from '@sentry/remix'
 import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { z } from 'zod'
-import { GeneralErrorBoundary } from './components/error-boundary.tsx'
-import { href as iconsHref } from './components/ui/icon.tsx'
-import tailwindStyleSheetUrl from './styles/tailwind.css?url'
-import { ClientHintCheck, getHints, useHints } from './utils/client-hints.tsx'
-import { getEnv } from './utils/env.server.ts'
-import { honeypot } from './utils/honeypot.server.ts'
-import { combineHeaders, getDomainUrl } from './utils/misc.tsx'
-import { useNonce } from './utils/nonce-provider.ts'
-import { useRequestInfo } from './utils/request-info.ts'
-import { type Theme, setTheme, getTheme } from './utils/theme.server.ts'
-import { makeTimings } from './utils/timing.server.ts'
-import { getToast } from './utils/toast.server.ts'
+import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
+import { href as iconsHref } from '#app/components/ui/icon.tsx'
+import tailwindStyleSheetUrl from '#app/styles/tailwind.css?url'
+import { getUserId, logout } from '#app/utils/auth.server.ts'
+import { ClientHintCheck, getHints, useHints } from '#app/utils/client-hints.tsx'
+import { prisma } from '#app/utils/db.server'
+import { getEnv } from '#app/utils/env.server.ts'
+import { honeypot } from '#app/utils/honeypot.server.ts'
+import { combineHeaders, getDomainUrl } from '#app/utils/misc.tsx'
+import { useNonce } from '#app/utils/nonce-provider.ts'
+import { useRequestInfo } from '#app/utils/request-info.ts'
+import { type Theme, setTheme, getTheme } from '#app/utils/theme.server.ts'
+import { makeTimings, time } from '#app/utils/timing.server.ts'
+import { getToast } from '#app/utils/toast.server.ts'
 
 export const links: LinksFunction = () => {
 	return [
@@ -66,11 +68,48 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 export async function loader({ request }: LoaderFunctionArgs) {
 	const timings = makeTimings('root loader')
+	const userId = await time(() => getUserId(request), {
+		timings,
+		type: 'getUserId',
+		desc: 'getUserId in root',
+	})
+
+	const user = userId
+		? await time(
+				() =>
+					prisma.user.findUniqueOrThrow({
+						select: {
+							id: true,
+							name: true,
+							username: true,
+							image: { select: { id: true } },
+							roles: {
+								select: {
+									name: true,
+									permissions: {
+										select: { entity: true, action: true, access: true },
+									},
+								},
+							},
+						},
+						where: { id: userId },
+					}),
+				{ timings, type: 'find user', desc: 'find user in root' },
+			)
+		: null
+	if (userId && !user) {
+		console.info('something weird happened')
+		// something weird happened... The user is authenticated but we can't find
+		// them in the database. Maybe they were deleted? Let's log them out.
+		await logout({ request, redirectTo: '/' })
+	}
+	
 	const { toast, headers: toastHeaders } = await getToast(request)
 	const honeyProps = honeypot.getInputProps()
 
 	return json(
 		{
+			user,
 			requestInfo: {
 				hints: getHints(request),
 				origin: getDomainUrl(request),

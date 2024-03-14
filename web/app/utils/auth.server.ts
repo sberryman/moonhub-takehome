@@ -1,4 +1,4 @@
-import { type Connection, type Password, type User } from '@prisma/client'
+import { type connection, type password, type user } from '@prisma/client'
 import { redirect } from '@remix-run/node'
 import bcrypt from 'bcryptjs'
 import { Authenticator } from 'remix-auth'
@@ -31,7 +31,7 @@ export async function getUserId(request: Request) {
 	if (!sessionId) return null
 	const session = await prisma.session.findUnique({
 		select: { user: { select: { id: true } } },
-		where: { id: sessionId, expirationDate: { gt: new Date() } },
+		where: { id: sessionId, expiration_date: { gt: new Date() } },
 	})
 	if (!session?.user) {
 		throw redirect('/', {
@@ -74,16 +74,16 @@ export async function login({
 	username,
 	password,
 }: {
-	username: User['username']
+	username: user['username']
 	password: string
 }) {
 	const user = await verifyUserPassword({ username }, password)
 	if (!user) return null
 	const session = await prisma.session.create({
-		select: { id: true, expirationDate: true, userId: true },
+		select: { id: true, expiration_date: true, user_id: true },
 		data: {
-			expirationDate: getSessionExpirationDate(),
-			userId: user.id,
+			expiration_date: getSessionExpirationDate(),
+			user_id: user.id,
 		},
 	})
 	return session
@@ -93,7 +93,7 @@ export async function resetUserPassword({
 	username,
 	password,
 }: {
-	username: User['username']
+	username: user['username']
 	password: string
 }) {
 	const hashedPassword = await getPasswordHash(password)
@@ -115,16 +115,16 @@ export async function signup({
 	password,
 	name,
 }: {
-	email: User['email']
-	username: User['username']
-	name: User['name']
+	email: user['email']
+	username: user['username']
+	name: user['name']
 	password: string
 }) {
 	const hashedPassword = await getPasswordHash(password)
 
 	const session = await prisma.session.create({
 		data: {
-			expirationDate: getSessionExpirationDate(),
+			expiration_date: getSessionExpirationDate(),
 			user: {
 				create: {
 					email: email.toLowerCase(),
@@ -139,7 +139,7 @@ export async function signup({
 				},
 			},
 		},
-		select: { id: true, expirationDate: true },
+		select: { id: true, expiration_date: true },
 	})
 
 	return session
@@ -153,30 +153,30 @@ export async function signupWithConnection({
 	providerName,
 	imageUrl,
 }: {
-	email: User['email']
-	username: User['username']
-	name: User['name']
-	providerId: Connection['providerId']
-	providerName: Connection['providerName']
+	email: user['email']
+	username: user['username']
+	name: user['name']
+	providerId: connection['provider_id']
+	providerName: connection['provider_name']
 	imageUrl?: string
 }) {
 	const session = await prisma.session.create({
 		data: {
-			expirationDate: getSessionExpirationDate(),
+			expiration_date: getSessionExpirationDate(),
 			user: {
 				create: {
 					email: email.toLowerCase(),
 					username: username.toLowerCase(),
 					name,
 					roles: { connect: { name: 'user' } },
-					connections: { create: { providerId, providerName } },
+					connections: { create: { provider_id: providerId, provider_name: providerName } },
 					image: imageUrl
 						? { create: await downloadFile(imageUrl) }
 						: undefined,
 				},
 			},
 		},
-		select: { id: true, expirationDate: true },
+		select: { id: true, expiration_date: true },
 	})
 
 	return session
@@ -218,8 +218,8 @@ export async function getPasswordHash(password: string) {
 }
 
 export async function verifyUserPassword(
-	where: Pick<User, 'username'> | Pick<User, 'id'>,
-	password: Password['hash'],
+	where: Pick<user, 'username'> | Pick<user, 'id'>,
+	password: password['hash'],
 ) {
 	const userWithPassword = await prisma.user.findUnique({
 		where,

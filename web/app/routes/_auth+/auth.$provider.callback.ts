@@ -50,16 +50,16 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 	const { data: profile } = authResult
 
 	const existingConnection = await prisma.connection.findUnique({
-		select: { userId: true },
+		select: { user_id: true },
 		where: {
-			providerName_providerId: { providerName, providerId: profile.id },
+			provider_name_provider_id: { provider_name: providerName, provider_id: profile.id },
 		},
 	})
 
 	const userId = await getUserId(request)
 
 	if (existingConnection && userId) {
-		if (existingConnection.userId === userId) {
+		if (existingConnection.user_id === userId) {
 			return redirectWithToast(
 				'/settings/profile/connections',
 				{
@@ -84,9 +84,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 	if (userId) {
 		await prisma.connection.create({
 			data: {
-				providerName,
-				providerId: profile.id,
-				userId,
+				provider_name: providerName,
+				provider_id: profile.id,
+				user_id: userId,
 			},
 		})
 		return redirectWithToast(
@@ -102,7 +102,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
 	// Connection exists already? Make a new session
 	if (existingConnection) {
-		return makeSession({ request, userId: existingConnection.userId })
+		return makeSession({ request, userId: existingConnection.user_id })
 	}
 
 	// if the email matches a user in the db, then link the account and
@@ -114,9 +114,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 	if (user) {
 		await prisma.connection.create({
 			data: {
-				providerName,
-				providerId: profile.id,
-				userId: user.id,
+				provider_name: providerName,
+				provider_id: profile.id,
+				user_id: user.id,
 			},
 		})
 		return makeSession(
@@ -163,10 +163,10 @@ async function makeSession(
 ) {
 	redirectTo ??= '/'
 	const session = await prisma.session.create({
-		select: { id: true, expirationDate: true, userId: true },
+		select: { id: true, expiration_date: true, user_id: true },
 		data: {
-			expirationDate: getSessionExpirationDate(),
-			userId,
+			expiration_date: getSessionExpirationDate(),
+			user_id: userId,
 		},
 	})
 	return handleNewSession(

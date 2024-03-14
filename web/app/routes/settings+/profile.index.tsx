@@ -46,7 +46,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 				select: {
 					sessions: {
 						where: {
-							expirationDate: { gt: new Date() },
+							expiration_date: { gt: new Date() },
 						},
 					},
 				},
@@ -60,8 +60,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
 	})
 
 	const password = await prisma.password.findUnique({
-		select: { userId: true },
-		where: { userId },
+		select: { user_id: true },
+		where: { user_id: userId },
 	})
 
 	return json({
@@ -282,7 +282,7 @@ async function signOutOfSessionsAction({ request, userId }: ProfileActionArgs) {
 	)
 	await prisma.session.deleteMany({
 		where: {
-			userId,
+			user_id: userId,
 			id: { not: sessionId },
 		},
 	})

@@ -22,7 +22,7 @@ export async function handleNewSession(
 		remember,
 	}: {
 		request: Request
-		session: { userId: string; id: string; expirationDate: Date }
+		session: { user_id: string; id: string; expiration_date: Date }
 		redirectTo?: string
 		remember: boolean
 	},
@@ -31,7 +31,7 @@ export async function handleNewSession(
 	const verification = await prisma.verification.findUnique({
 		select: { id: true },
 		where: {
-			target_type: { target: session.userId, type: twoFAVerificationType },
+			target_type: { target: session.user_id, type: twoFAVerificationType },
 		},
 	})
 	const userHasTwoFactor = Boolean(verification)
@@ -43,7 +43,7 @@ export async function handleNewSession(
 		const redirectUrl = getRedirectToUrl({
 			request,
 			type: twoFAVerificationType,
-			target: session.userId,
+			target: session.user_id,
 			redirectTo,
 		})
 		return redirect(
@@ -65,12 +65,12 @@ export async function handleNewSession(
 		authSession.set(sessionKey, session.id)
 
 		return redirect(
-			safeRedirect(redirectTo),
+			safeRedirect(redirectTo || '/app'),
 			combineResponseInits(
 				{
 					headers: {
 						'set-cookie': await authSessionStorage.commitSession(authSession, {
-							expires: remember ? session.expirationDate : undefined,
+							expires: remember ? session.expiration_date : undefined,
 						}),
 					},
 				},
@@ -103,7 +103,7 @@ export async function handleVerification({
 	const unverifiedSessionId = verifySession.get(unverifiedSessionIdKey)
 	if (unverifiedSessionId) {
 		const session = await prisma.session.findUnique({
-			select: { expirationDate: true },
+			select: { expiration_date: true },
 			where: { id: unverifiedSessionId },
 		})
 		if (!session) {
@@ -118,7 +118,7 @@ export async function handleVerification({
 		headers.append(
 			'set-cookie',
 			await authSessionStorage.commitSession(authSession, {
-				expires: remember ? session.expirationDate : undefined,
+				expires: remember ? session.expiration_date : undefined,
 			}),
 		)
 	} else {
