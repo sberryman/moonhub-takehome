@@ -24,6 +24,11 @@ class Settings(BaseSettings):
     # postgres settings
     database_url: str = "postgresql://postgres:postgres@postgres:5432/postgres"
 
+    # nylas
+    nylas_client_id: str
+    nylas_api_key: str
+    nylas_api_region_uri: str
+
 
 # export settings
 settings = Settings()

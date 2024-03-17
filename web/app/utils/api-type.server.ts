@@ -1,4 +1,4 @@
-{
+export default {
     "openapi": "3.1.0",
     "info": {
         "title": "Moonhub API - Takehome",
@@ -399,4 +399,4 @@
             }
         }
     }
-}
+} as const

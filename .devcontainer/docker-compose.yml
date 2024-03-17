@@ -50,11 +50,9 @@ services:
   #     - ../.docker-data/qdrant-storage:/qdrant/storage:z
 
   # memgraph
-  # memgraph-platform:
-  #   image: memgraph/memgraph-platform
-  #   ports:
-  #     - "7687:7687"
-  #     - "7444:7444"
-  #     - "3000:3000"
-  #   volumes:
-  #     - "../.docker-data/memgraph-data:/usr/lib/memgraph/data"
+  memgraph-platform:
+    image: memgraph/memgraph-platform:latest
+    ports:
+      - "3072:3000"
+    volumes:
+      - "../.docker-data/memgraph-data:/usr/lib/memgraph/data"

@@ -66,7 +66,6 @@ CREATE TABLE "outreach_step" (
     "delayDays" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
-    "outreach_status_id" TEXT,
 
     CONSTRAINT "outreach_step_pkey" PRIMARY KEY ("id")
 );
@@ -85,6 +84,7 @@ CREATE TABLE "outreach_template" (
 -- CreateTable
 CREATE TABLE "outreach_status" (
     "id" TEXT NOT NULL,
+    "step_id" TEXT NOT NULL,
     "replied" BOOLEAN NOT NULL DEFAULT false,
     "active" BOOLEAN NOT NULL DEFAULT true,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -249,7 +249,7 @@ ALTER TABLE "outreach_step" ADD CONSTRAINT "outreach_step_sequence_id_fkey" FORE
 ALTER TABLE "outreach_step" ADD CONSTRAINT "outreach_step_template_id_fkey" FOREIGN KEY ("template_id") REFERENCES "outreach_template"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "outreach_step" ADD CONSTRAINT "outreach_step_outreach_status_id_fkey" FOREIGN KEY ("outreach_status_id") REFERENCES "outreach_status"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "outreach_status" ADD CONSTRAINT "outreach_status_step_id_fkey" FOREIGN KEY ("step_id") REFERENCES "outreach_step"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "outreach_status" ADD CONSTRAINT "outreach_status_candidate_id_fkey" FOREIGN KEY ("candidate_id") REFERENCES "candidate"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

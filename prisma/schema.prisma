@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "/workspaces/web/node_modules/.prisma/client"
+  output   = "/workspaces/web/node_modules/.prisma/client"
 }
 
 generator pyclient {
@@ -31,10 +31,80 @@ model user {
 
   projects project[]
 
+  // nylas connection(s)
+  nylas_accounts nylas_account[]
+
   roles       role[]
   sessions    session[]
   connections connection[]
 }
+
+model nylas_account {
+  id       String @id @default(cuid())
+  grant_id String
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+  expired    Boolean   @default(false)
+
+  user    user   @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user_id String
+
+  // messages    email_message[]
+  // attachments email_attachment[]
+}
+
+// model email_message {
+//   id          String             @id @default(cuid())
+//   starred     Boolean
+//   unread      Boolean
+//   folders     String[]
+//   date        DateTime
+//   attachments email_attachment[]
+//   from        Sender[]
+//   object      String
+//   snippet     String
+//   subject     String
+//   thread_id   String
+//   to          Recipient[]
+//   created_at  DateTime
+//   body        String
+
+//   nylas_account   nylas_account? @relation(fields: [nylas_accountId], references: [id])
+//   nylas_accountId String?
+// }
+
+// model email_attachment {
+//   id                  String   @id @default(cuid())
+//   filename            String
+//   size                Int
+//   content_type        String
+//   is_inline           Boolean? // Optional since not all attachments have this field
+//   content_disposition String? // Optional since not all attachments have this field
+
+//   message_id String
+//   message    email_message @relation(fields: [message_id], references: [id])
+
+//   nylas_account    nylas_account? @relation(fields: [nylas_account_id], references: [id])
+//   nylas_account_id String?
+// }
+
+// model Sender {
+//   id         String        @id @default(cuid())
+//   name       String
+//   email      String
+//   message_id String
+//   message    email_message @relation(fields: [message_id], references: [id])
+// }
+
+// model Recipient {
+//   id         String        @id @default(cuid())
+//   name       String
+//   email      String
+//   message_id String
+//   message    email_message @relation(fields: [message_id], references: [id])
+// }
 
 model project {
   id      String @id @default(cuid())
@@ -78,7 +148,7 @@ model candidate {
   person    person @relation(fields: [person_id], references: [id])
   person_id String
 
-  outreachStatus outreach_status[]
+  outreach_status outreach_status[]
 }
 
 model person {
@@ -117,11 +187,9 @@ model outreach_step {
 
   delayDays Int // Number of days to wait before sending this step
 
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-
-  outreach_status    outreach_status? @relation(fields: [outreach_status_id], references: [id])
-  outreach_status_id String?
+  created_at      DateTime          @default(now())
+  updated_at      DateTime          @updatedAt
+  outreach_status outreach_status[]
 }
 
 model outreach_template {
@@ -138,9 +206,11 @@ model outreach_template {
 model outreach_status {
   id String @id @default(cuid())
 
-  steps   outreach_step[]
-  replied Boolean         @default(false)
-  active  Boolean         @default(true) // Whether the outreach sequence is active
+  step    outreach_step @relation(fields: [step_id], references: [id])
+  step_id String
+
+  replied Boolean @default(false)
+  active  Boolean @default(true) // Whether the outreach sequence is active
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
