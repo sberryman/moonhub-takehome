@@ -22,7 +22,8 @@
 				"esbenp.prettier-vscode",
 				"ms-python.vscode-pylance",
 				"tamasfe.even-better-toml",
-				"emeraldwalk.RunOnSave"
+				"emeraldwalk.RunOnSave",
+				"ms-playwright.playwright"
 			]
 		}
 	},

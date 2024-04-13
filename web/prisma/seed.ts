@@ -131,14 +131,16 @@ async function seed() {
 
 	const githubUser = await insertGitHubUser('MOCK_CODE_GITHUB_KODY')
 
+	const email = 'shaun@shaunberryman.com'
+	const name = 'Moonhub Demo'
 	await prisma.user.create({
 		select: { id: true },
 		data: {
-			email: 'shaun+moonhub@shaunberryman.com',
+			email,
 			username: 'moonhub',
-			name: 'Moonhub Demo',
+			name,
 			image: { create: kodyImages.moonhubUser },
-			password: { create: createPassword('shaun') },
+			password: { create: createPassword('shaunberryman') },
 			connections: {
 				create: { provider_name: 'github', provider_id: githubUser.profile.id },
 			},
@@ -242,6 +244,68 @@ async function seed() {
 			// 		},
 			// 	],
 			// },
+			nylas_accounts: {
+				create: [
+					{
+						// grant_id: 'MOCK_CODE_NYLAS_SHAUN',
+						grant_id: '0699234b-9879-426d-bd7e-93ca3fdfa54a',
+						// messages: {
+						// 	create: [
+						// 		{
+						// 			id: '1',
+						// 			starred: false,
+						// 			unread: true,
+						// 			folders: ['UNREAD', 'CATEGORY_PERSONAL', 'INBOX'],
+						// 			date: new Date('2024-02-01T18:20:44Z'),
+						// 			created_at: new Date('2024-02-01T18:20:44Z'),
+
+						// 			from: {
+						// 				create: {
+						// 					name,
+						// 					email,
+						// 				},
+						// 			},
+						// 			to: {
+						// 				create: [
+						// 					{
+						// 						name: 'Drake Volz',
+						// 						email: 'drake.volz@moonhub.ai',
+						// 					},
+						// 				],
+						// 			},
+
+						// 			object: 'message',
+						// 			snippet: 'Send Email with Nylas APIs',
+						// 			subject: 'Learn how to Send Email with Nylas APIs',
+						// 			thread_id: '1',
+						// 			body: 'Learn how to send emails using the Nylas APIs!',
+
+						// 			attachments: {
+						// 				create: [
+						// 					{
+						// 						id: '1',
+						// 						filename: 'invite.ics',
+						// 						content_type:
+						// 							'text/calendar; charset="UTF-8"; method=REQUEST',
+						// 						size: 2504,
+						// 					},
+						// 					{
+						// 						id: '2',
+						// 						filename: 'invite.ics',
+						// 						content_type: 'application/ics; name="invite.ics"',
+						// 						size: 2504,
+						// 						is_inline: false,
+						// 						content_disposition:
+						// 							'attachment; filename="invite.ics"',
+						// 					},
+						// 				],
+						// 			},
+						// 		},
+						// 	],
+						// },
+					},
+				],
+			},
 		},
 	})
 	console.timeEnd(`🐨 Created admin user "kody"`)

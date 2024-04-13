@@ -76,8 +76,8 @@ export const test = base.extend<{
 			userId = user.id
 			const session = await prisma.session.create({
 				data: {
-					expirationDate: getSessionExpirationDate(),
-					userId: user.id,
+					expiration_date: getSessionExpirationDate(),
+					user_id: user.id,
 				},
 				select: { id: true },
 			})
